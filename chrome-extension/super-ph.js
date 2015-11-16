@@ -80,7 +80,12 @@ observer.observe( document, {
 if ($('h1').text() == "Enter New Package") {
 	$('#table_new_package > tbody > tr:nth-child(7) > td > h2').append('<button type="button" style="margin-left:15px;" id="super-ph-button">Super PH</button>');
 	$('#hub > [value="Gray Hall Service Desk"]').prop('selected', true);
-	$('#table_new_package > tbody > tr:nth-child(5)').after('<tr><td>Storage Location</td><td><input type="radio" name="storage-location" value="spc">Small Package Cabinet<br><input type="radio" name="storage-location" value="cab" checked>Cabinet<br><input type="radio" name="storage-location" value="back">Back</td></tr>');
+	$('#table_new_package > tbody > tr:nth-child(5)').after('<tr id="location-selector"></tr>');
+	$('#location-selector').append('<td>Storage Location</td><td id="location-radio"></td>');
+	$('#location-radio').append('<input type="radio" name="storage-location" value="spc">Small Package Cabinet');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" value="other">Other <input type="text" name="other-location" id="other-location">');
 };
 
 // Enter New Package 'Super PH' button
@@ -126,7 +131,8 @@ $('body').on('click', '#super-ph-button', function () {
 $('form#new_package').submit(function (evt) {
 	var notes = $('#notes').val(),
 		charLastName = $('#last').val().charAt(0),
-		storageLocation = $('input[name="storage-location"]:checked').val();
+		storageLocation = $('input[name="storage-location"]:checked').val(),
+		otherLocation = $('#other-location').val();
 	switch (storageLocation) {
 	case 'spc':
 		$('#notes').val('Small Package Cabinet, ' + notes);
@@ -136,6 +142,9 @@ $('form#new_package').submit(function (evt) {
 		break;
 	case 'back':
 		$('#notes').val('Back, ' + notes);
+		break;
+	case 'other':
+		$('#notes').val(otherLocation + ', ' + notes);
 		break;
 	};
 });
