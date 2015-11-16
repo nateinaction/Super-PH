@@ -85,7 +85,7 @@ if ($('h1').text() == "Enter New Package") {
 	$('#location-radio').append('<input type="radio" name="storage-location" value="spc">Small Package Cabinet');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
-	$('#location-radio').append('<br><input type="radio" name="storage-location" value="other">Other <input type="text" name="other-location" id="other-location">');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" id="other-location-radio" value="other">Other <input type="text" name="other-location" id="other-location">');
 };
 
 // Enter New Package 'Super PH' button
@@ -148,3 +148,9 @@ $('form#new_package').submit(function (evt) {
 		break;
 	};
 });
+
+// When "other location" textbox is selected, update radio button to match
+$('body').on('click', '#other-location', function () {
+	$("#other-location-radio").prop("checked", true)
+});
+
