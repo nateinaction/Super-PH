@@ -1,7 +1,7 @@
 /*
  * Name: Super PH
  * Developer: Nate Gay (rngay@ncsu.edu)
- *
+ * URL: github.com/nateinaction/Super-PH
  * Version: Beta 1
  *
  * TODO:
@@ -74,6 +74,7 @@ observer.observe( document, {
 
 // select Gray Hall as hub, add location selection radio buttons, add 'Super PH' button
 if ($('h1').text() == "Enter New Package") {
+	$('#table_new_package > tbody > tr:nth-child(7) > td > h2').append('<button type="button" style="margin-left:15px;" id="super-ph-button">Super PH</button>');
 	$('#hub > [value="Gray Hall Service Desk"]').prop('selected', true);
 	$('#table_new_package > tbody > tr:nth-child(5)').after('<tr id="location-selector"></tr>');
 	$('#location-selector').append('<td>Storage Location</td><td id="location-radio"></td>');
@@ -81,7 +82,6 @@ if ($('h1').text() == "Enter New Package") {
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" id="other-location-radio" value="other">Other <input type="text" name="other-location" id="other-location">');
-	$('#table_new_package > tbody > tr:nth-child(7) > td > h2').append('<button type="button" style="margin-left:15px;" id="super-ph-button">Super PH</button>');
 };
 
 // Enter New Package 'Super PH' button
