@@ -1,0 +1,1 @@
+java -jar compiler.jar --js hello.js --js_output_file hello-compiled.js

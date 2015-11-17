@@ -5,16 +5,15 @@
  * Version: Beta 1
  *
  * TODO:
- * 1. More notes?
- * 2. previous selections?
+ * 1. previous selections?
  *
  */
 
 // global vars
 creeper = {};
 
-// found answer here:
-// stackoverflow.com/questions/2844565/is-there-a-jquery-dom-change-listener
+// Watch all html mutations on MyPack 24-hour Desk Log search page, grab student info and store in chrome creeper object
+// find out more here: stackoverflow.com/questions/2844565/is-there-a-jquery-dom-change-listener
 var observer = new MutationObserver(function(mutations, observer) {
 	var str = '';
 	// fired when a mutation occurs
@@ -73,12 +72,8 @@ observer.observe( document, {
 	childList: true
 });
 
-
-// for every update to creeper object, update chrome var
-// for every chrome var update... hmmm no... when button is clicked get chrome var and fill in blanks
-
+// select Gray Hall as hub, add location selection radio buttons, add 'Super PH' button
 if ($('h1').text() == "Enter New Package") {
-	$('#table_new_package > tbody > tr:nth-child(7) > td > h2').append('<button type="button" style="margin-left:15px;" id="super-ph-button">Super PH</button>');
 	$('#hub > [value="Gray Hall Service Desk"]').prop('selected', true);
 	$('#table_new_package > tbody > tr:nth-child(5)').after('<tr id="location-selector"></tr>');
 	$('#location-selector').append('<td>Storage Location</td><td id="location-radio"></td>');
@@ -86,14 +81,14 @@ if ($('h1').text() == "Enter New Package") {
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
 	$('#location-radio').append('<br><input type="radio" name="storage-location" id="other-location-radio" value="other">Other <input type="text" name="other-location" id="other-location">');
+	$('#table_new_package > tbody > tr:nth-child(7) > td > h2').append('<button type="button" style="margin-left:15px;" id="super-ph-button">Super PH</button>');
 };
 
 // Enter New Package 'Super PH' button
 $('body').on('click', '#super-ph-button', function () {
-	//console.log('click');
+	// grab creeper object from chrome and fill in form
 	chrome.storage.local.get(null, function(obj) {
 		creeper = obj.creeper;
-		//console.log(obj.creeper);
 		$('#last').val(creeper.studentName.split(',')[0]);
 		$('#first').val(creeper.studentName.split(',')[1]);
 		switch (creeper.studentBuilding) {
@@ -133,18 +128,25 @@ $('form#new_package').submit(function (evt) {
 		charLastName = $('#last').val().charAt(0),
 		storageLocation = $('input[name="storage-location"]:checked').val(),
 		otherLocation = $('#other-location').val();
+
+	// if notes are not blank preceed them with a comma and a space
+	if (notes) {
+		notes = ', ' + notes;
+	};
+
+	// place storage location at the beginning of notes field
 	switch (storageLocation) {
 	case 'spc':
-		$('#notes').val('Small Package Cabinet, ' + notes);
+		$('#notes').val('Small Package Cabinet' + notes);
 		break;
 	case 'cab':
-		$('#notes').val(charLastName + ' Cabinet, ' + notes);
+		$('#notes').val(charLastName + ' Cabinet' + notes);
 		break;
 	case 'back':
-		$('#notes').val('Back, ' + notes);
+		$('#notes').val('Back' + notes);
 		break;
 	case 'other':
-		$('#notes').val(otherLocation + ', ' + notes);
+		$('#notes').val(otherLocation + notes);
 		break;
 	};
 });
