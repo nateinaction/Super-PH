@@ -3,7 +3,7 @@
 
   "name": "Super PH",
   "description": "Package handling made easy.",
-  "version": "0.5",
+  "version": "0.6",
   "icons": {
   "128": "images/super-ph.png"
   },
@@ -14,16 +14,10 @@
     "tabs",
     "storage"
   ],
-  "web_accessible_resources": [
-    "images/super-ph.png",
-    "views/super-ph.css",
-    "views/package-log.html",
-    "views/desk-log.html"
-  ],
  "content_scripts": [
   {
     "matches": ["https://portalsp.acs.ncsu.edu/*", "https://cs9prd.acs.ncsu.edu/*", "https://housing.ncsu.edu/apps/packtrack/*"],
-    "js": ["libs/jquery-2.1.4.min.js", "super-ph.js"],
+    "js": ["bower_components/jquery/dist/jquery.min.js", "super-ph.js"],
     "all_frames": true
   }
 ]

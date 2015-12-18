@@ -1,0 +1,22 @@
+{
+  "name": "Super PH",
+  "homepage": "https://github.com/nateinaction/Super-PH",
+  "authors": [
+    "Nate Gay <nate@ohnate.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "firebase": "~2.3.2",
+    "jquery": "~2.1.4"
+  }
+}
