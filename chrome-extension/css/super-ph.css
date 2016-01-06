@@ -1,6 +1,15 @@
 .number {
-	color: red;
+	color: firebrick;
 }
 .letter {
-	color: blue;
+	color: cornflowerblue;
+}
+#super-ph > h3 {
+	color: forestgreen;
+}
+#super-ph span {
+	font-weight: bold;
+}
+#super-ph p {
+	font-size: large;
 }

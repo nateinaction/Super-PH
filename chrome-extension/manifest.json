@@ -18,6 +18,9 @@
 		"tabs",
 		"storage"
 	],
+	"web_accessible_resources": [
+		"css/super-ph.css"
+	],
 	"content_scripts": [
 		{
 			"matches": ["https://portalsp.acs.ncsu.edu/*", "https://cs9prd.acs.ncsu.edu/*", "https://housing.ncsu.edu/apps/packtrack/*"],
