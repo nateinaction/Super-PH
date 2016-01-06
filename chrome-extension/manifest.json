@@ -1,25 +1,28 @@
 {
-  "manifest_version": 2,
+	"manifest_version": 2,
 
-  "name": "Super PH",
-  "description": "Package handling made easy.",
-  "version": "0.6",
-  "icons": {
-  "128": "images/super-ph.png"
-  },
-  "permissions": [
-    "https://portalsp.acs.ncsu.edu/",
-    "https://cs9prd.acs.ncsu.edu/",
-    "https://housing.ncsu.edu/apps/packtrack/",
-    "tabs",
-    "storage"
-  ],
- "content_scripts": [
-  {
-    "matches": ["https://portalsp.acs.ncsu.edu/*", "https://cs9prd.acs.ncsu.edu/*", "https://housing.ncsu.edu/apps/packtrack/*"],
-    "js": ["bower_components/jquery/dist/jquery.min.js", "super-ph.js"],
-    "all_frames": true
-  }
-]
-
+	"name": "Super PH",
+	"description": "Package handling made easy.",
+	"version": "1.0",
+	"icons": {
+	"128": "images/super-ph.png"
+	},
+	"page_action": {
+		"default_icon": "images/super-ph-blank.png",
+		"default_title": "Super PH"
+	},
+	"permissions": [
+		"https://portalsp.acs.ncsu.edu/",
+		"https://cs9prd.acs.ncsu.edu/",
+		"https://housing.ncsu.edu/apps/packtrack/",
+		"tabs",
+		"storage"
+	],
+	"content_scripts": [
+		{
+			"matches": ["https://portalsp.acs.ncsu.edu/*", "https://cs9prd.acs.ncsu.edu/*", "https://housing.ncsu.edu/apps/packtrack/*"],
+			"js": ["js/jquery.min.js", "js/super-ph.js"],
+			"all_frames": true
+		}
+	]
 }
