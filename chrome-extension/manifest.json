@@ -3,7 +3,7 @@
 
 	"name": "Super PH",
 	"description": "Package handling made easy.",
-	"version": "1.0",
+	"version": "1.0.1",
 	"icons": {
 	"128": "images/super-ph.png"
 	},

@@ -56,39 +56,40 @@ function mypackMutationObserver() {
 };
 
 function filterMutationObject(mutation) {
+	var creeper = {},
+		str = '';
+
 	chrome.storage.local.get('creeper', function(obj) {
 		if (obj['creeper']) {
-			var creeper = obj['creeper'],
-				str = mutation.addedNodes[0].innerHTML;
-			if (str.includes('NC_HIS_24HR_VW_NC_NAME_PRI')) {
-				creeper['name'] = $(str).find('#NC_HIS_24HR_VW_NC_NAME_PRI')[0].textContent;
-				creeper['last'] = creeper['name'].split(',')[0];
-				creeper['first'] = creeper['name'].split(',')[1];
-			};
-			if (str.includes('NC_HIS_24HR_VW_EMPLID')) {
-				creeper['id'] = $(str).find('#NC_HIS_24HR_VW_EMPLID')[0].textContent;
-			};
-			if (str.includes('NC_HIS_24HR_VW_EMAIL_ADDR')) {
-				creeper['email'] = $(str).find('#NC_HIS_24HR_VW_EMAIL_ADDR')[0].textContent;
-			};
-			if (str.includes('NC_HIS_24HR_VW_NC_ADDRESS1_LOCL')) {
-				creeper['unit'] = $(str).find('#NC_HIS_24HR_VW_NC_ADDRESS1_LOCL')[0].textContent;
-				creeper['unitNumber'] = creeper['unit'].split(' ')[1];
-			};
-			if (str.includes('NC_HIS_24HR_VW_BUILDING')) {
-				creeper['building'] = $(str).find('#NC_HIS_24HR_VW_BUILDING\\$0')[0].textContent;
-			};
-			if (str.includes('NC_HIS_24HR_VW_NC_HIS_UNIT_NUM')) {
-				creeper['suite'] = $(str).find('#NC_HIS_24HR_VW_NC_HIS_UNIT_NUM\\$0')[0].textContent;
-			};
-			if (str.includes('NC_HIS_24HR_VW_NC_HIS_UNIT_BED')) {
-				creeper['bed'] = $(str).find('#NC_HIS_24HR_VW_NC_HIS_UNIT_BED\\$0')[0].textContent;
-			};
-
-			chrome.storage.local.set({'creeper': creeper});
-		} else {
-			console.log('creeper object does not exist');
+			creeper = obj['creeper'];
 		};
+		str = mutation.addedNodes[0].innerHTML;
+		if (str.includes('NC_HIS_24HR_VW_NC_NAME_PRI')) {
+			creeper['name'] = $(str).find('#NC_HIS_24HR_VW_NC_NAME_PRI')[0].textContent;
+			creeper['last'] = creeper['name'].split(',')[0];
+			creeper['first'] = creeper['name'].split(',')[1];
+		};
+		if (str.includes('NC_HIS_24HR_VW_EMPLID')) {
+			creeper['id'] = $(str).find('#NC_HIS_24HR_VW_EMPLID')[0].textContent;
+		};
+		if (str.includes('NC_HIS_24HR_VW_EMAIL_ADDR')) {
+			creeper['email'] = $(str).find('#NC_HIS_24HR_VW_EMAIL_ADDR')[0].textContent;
+		};
+		if (str.includes('NC_HIS_24HR_VW_NC_ADDRESS1_LOCL')) {
+			creeper['unit'] = $(str).find('#NC_HIS_24HR_VW_NC_ADDRESS1_LOCL')[0].textContent;
+			creeper['unitNumber'] = creeper['unit'].split(' ')[1];
+		};
+		if (str.includes('NC_HIS_24HR_VW_BUILDING')) {
+			creeper['building'] = $(str).find('#NC_HIS_24HR_VW_BUILDING\\$0')[0].textContent;
+		};
+		if (str.includes('NC_HIS_24HR_VW_NC_HIS_UNIT_NUM')) {
+			creeper['suite'] = $(str).find('#NC_HIS_24HR_VW_NC_HIS_UNIT_NUM\\$0')[0].textContent;
+		};
+		if (str.includes('NC_HIS_24HR_VW_NC_HIS_UNIT_BED')) {
+			creeper['bed'] = $(str).find('#NC_HIS_24HR_VW_NC_HIS_UNIT_BED\\$0')[0].textContent;
+		};
+
+		chrome.storage.local.set({'creeper': creeper});
 	});
 };
 
