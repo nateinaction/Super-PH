@@ -9,18 +9,22 @@
  *
  */
 
-if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/new.php') {
-	setupPacktrackHTML();
-	chromeGetValue();
-	chromeWatchForChange();
-	packtrackOtherLocation();
-	packtrackSubmit()
-	displaySortCountHMTL();
-} else if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/done.php') {
-	setupDeliveryHTML();
-} else {
-	mypackMutationObserver();
+function initializeSuperPH() {
+	var regex = new RegExp('https://cs9prd.acs.ncsu.edu/');
+	if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/new.php') {
+		setupPacktrackHTML();
+		chromeGetValue();
+		chromeWatchForChange();
+		packtrackOtherLocation();
+		packtrackSubmit()
+		displaySortCountHMTL();
+	} else if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/done.php') {
+		setupDeliveryHTML();
+	} else if (window.location.href.match(regex) !== null) {
+		mypackMutationObserver();
+	};
 };
+initializeSuperPH();
 
 // Watch all html mutations on MyPack 24-hour Desk Log search page, grab student info and store in chrome creeper object
 // find out more here: stackoverflow.com/questions/2844565/is-there-a-jquery-dom-change-listener
