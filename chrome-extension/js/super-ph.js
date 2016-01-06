@@ -4,10 +4,8 @@
  * URL: github.com/nateinaction/Super-PH
  *
  * TODO:
- * 1. count packages logged
- * !! 2. get rid of Super PH button on Packtrack
- * !! 3. start to organize code
- * !! 4. make info on delivery page more legible
+ * !! 1. count packages logged
+ * 2. clean and organize code
  *
  */
 
@@ -17,6 +15,7 @@ if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/new.php') 
 	chromeWatchForChange();
 	packtrackOtherLocation();
 	packtrackSubmit()
+	displaySortCountHMTL();
 } else if (window.location.href === 'https://housing.ncsu.edu/apps/packtrack/done.php') {
 	setupDeliveryHTML();
 } else {
@@ -90,58 +89,36 @@ function filterMutationObject(mutation) {
 };
 
 // select Gray Hall as hub, add location selection radio buttons, add 'Super PH' button
+//#table_new_package > tbody > tr:nth-child(1) > td > h2
 function setupPacktrackHTML() {
-	if ($('h1').text() == "Enter New Package") {
-		$('#hub > [value="Gray Hall Service Desk"]').prop('selected', true);
-		$('#table_new_package > tbody > tr:nth-child(5)').after('<tr id="location-selector"></tr>');
-		$('#location-selector').append('<td>Storage Location</td><td id="location-radio"></td>');
-		$('#location-radio').append('<input type="radio" name="storage-location" value="spc">Small Package Cabinet');
-		$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
-		$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
-		$('#location-radio').append('<br><input type="radio" name="storage-location" id="other-location-radio" value="other">Other <input type="text" name="other-location" id="other-location">');
-	};
+	$('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('css/super-ph.css') + '">');
+	$('#hub > [value="Gray Hall Service Desk"]').prop('selected', true);
+	$('#table_new_package').before('<div id="super-ph"><h2>Super PH</h2></div>');
+	$('#table_new_package > tbody > tr:nth-child(5)').after('<tr id="location-selector"></tr>');
+	$('#location-selector').append('<td>Storage Location</td><td id="location-radio"></td>');
+	$('#location-radio').append('<input type="radio" name="storage-location" value="spc">Small Package Cabinet');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" value="cab" checked>Cabinet');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" value="back">Back');
+	$('#location-radio').append('<br><input type="radio" name="storage-location" id="other-location-radio" value="other">Other <input type="text" name="other-location" id="other-location">');
 };
 
 function setupDeliveryHTML() {
-// package ID "delivery #" (can get on delivery page) body > p:nth-child(10) > strong:nth-child(1)
-// last name
-// first name
-// student ID #
-// unit ID "box #"
-// date (can get on delivery page)
-// storage location
-// tracking #
-// carrier
 	var packageID = $('body > p:nth-child(10) > strong:nth-child(1)').text(),
-		d = new Date(),
-		month = d.getMonth() + 1,
-		day = d.getDate(),
-		year = d.getFullYear(),
-		today = month + '-' + day + '-' + year;
+		today = getToday();
 
 	$('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('css/super-ph.css') + '">');
 	$('body > h1').after('<div id="super-ph"><h3>Super PH</h3></div>');
-	$('#super-ph').append('<p>Package ID: <span id="package-id">' + packageID + '</span></p>');
-	$('#super-ph').append('<p>Last Name: <span id="last-name"></span></p>');
-	$('#super-ph').append('<p>First Name: <span id="first-name"></span></p>');
-	$('#super-ph').append('<p>Student ID: <span id="student-id"></span></p>');
-	$('#super-ph').append('<p>Unit #: <span id="unit-number"></span></p>');
-	$('#super-ph').append('<p>Date: <span id="date">' + today + '</span></p>');
-	$('#super-ph').append('<p>Location: <span id="location"></span></p>');
-	$('#super-ph').append('<p>Tracking #: <span id="tracking-number"></span></p>');
-	$('#super-ph').append('<p>Carrier: <span id="carrier"></span></p>');
+	$('#super-ph').append('<p class="large">Package ID: <span id="package-id">' + packageID + '</span></p>');
+	$('#super-ph').append('<p class="large">Last Name: <span id="last-name"></span></p>');
+	$('#super-ph').append('<p class="large">First Name: <span id="first-name"></span></p>');
+	$('#super-ph').append('<p class="large">Student ID: <span id="student-id"></span></p>');
+	$('#super-ph').append('<p class="large">Unit #: <span id="unit-number"></span></p>');
+	$('#super-ph').append('<p class="large">Date: <span id="date">' + today + '</span></p>');
+	$('#super-ph').append('<p class="large">Location: <span id="location"></span></p>');
+	$('#super-ph').append('<p class="large">Tracking #: <span id="tracking-number"></span></p>');
+	$('#super-ph').append('<p class="large">Carrier: <span id="carrier"></span></p>');
 
-/*
-	chrome.storage.local.get('sortCount', function(obj) {
-		if (obj['sortCount']) {
-			var sortCount = obj['sortCount'] + 1;
-		} else {
-			var sortCount = 1;
-		};
-		chrome.storage.local.set({'sortCount': sortCount});
-		console.log(sortCount);
-	});
-*/
+	displaySortCountHMTL();
 
 	chrome.storage.local.get('deliveryInfo', function(obj) {
 		if (obj['deliveryInfo']) {
@@ -162,8 +139,7 @@ function setupDeliveryHTML() {
 			$('#last-name').text(creeper['last']);
 			$('#first-name').text(creeper['first']);
 			$('#student-id').text(creeper['id']);
-			$('#unit-number').text(creeper['unit']);
-			$('#last-name').text(creeper['last']);
+			$('#unit-number').text(creeper['unitNumber']);
 		} else {
 			console.log('creeper object does not exist');
 		};
@@ -224,6 +200,7 @@ function packtrackSubmit() {
 		};
 		$('#notes').val(storageLocation + notes);
 
+		addToSortCount();
 		chrome.storage.local.set({'deliveryInfo': {'trackingNumber': trackingNumber, 'storageLocation': storageLocation, 'carrier': carrier}});
 	});
 };
@@ -278,4 +255,55 @@ function colorize(str) {
 		};
 	};
 	return html;
+};
+
+function getToday() {
+	var d = new Date(),
+		month = d.getMonth() + 1,
+		day = d.getDate(),
+		year = d.getFullYear(),
+		today = month + '-' + day + '-' + year;
+	return today;
+};
+
+function addToSortCount() {
+	var today = getToday(),
+		countObj = {};
+
+	countObj['sortCount'] = {};
+	chrome.storage.local.get('sortCount', function(obj) {
+		if (obj['sortCount']) {
+			if (obj['sortCount'][today]) {
+				countObj['sortCount'][today] = obj['sortCount'][today] + 1;
+				console.log(countObj['sortCount'][today]);
+			} else {
+				countObj['sortCount'][today] = 1;
+			};
+		} else {
+			countObj['sortCount'][today] = 1;
+		};
+		chrome.storage.local.set(countObj);
+	});
+};
+
+function displaySortCountHMTL() {
+	var today = getToday(),
+		count = 0;
+
+	chrome.storage.local.get('sortCount', function(obj) {
+		if (obj['sortCount']) {
+			if (obj['sortCount'][today]) {
+				count = obj['sortCount'][today];
+				if (count < 1 || count > 1) {
+					$('#super-ph').append('<p>You have delivered <span id="sort-count">' + count + '</span> packages today.</p>');
+				} else {
+					$('#super-ph').append('<p>You have delivered <span id="sort-count">1</span> package today.</p>');
+				};
+			} else {
+				$('#super-ph').append('<p>You have delivered <span id="sort-count">0</span> packages today.</p>');
+			};
+		} else {
+			$('#super-ph').append('<p>You have delivered <span id="sort-count">0</span> packages today.</p>');
+		};
+	});
 };

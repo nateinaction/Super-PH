@@ -4,12 +4,12 @@
 .letter {
 	color: cornflowerblue;
 }
-#super-ph > h3 {
+#super-ph > h2, #super-ph > h3 {
 	color: forestgreen;
 }
 #super-ph span {
 	font-weight: bold;
 }
-#super-ph p {
+#super-ph .large {
 	font-size: large;
 }
